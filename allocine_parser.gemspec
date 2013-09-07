@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/mlamarque/allocine"
   s.summary     = %q{Easily access the API information on Allocine API.}
   s.description = %q{Easily use Ruby to find information on allocine API.}
+  s.license     = "MIT"
 
   s.rubyforge_project = "allocine_parser"
 
