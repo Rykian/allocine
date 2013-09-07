@@ -54,8 +54,11 @@ module Allocine
     end
 
     def self.find_by_id(allocine_id)
-      url = "http://api.allocine.fr/rest/v3/person?partner=YW5kcm9pZC12M3M&profile=large&code=#{allocine_id}&format=json"
-      JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)["person"]
+      url = Allocine::Helper.build_url("person",
+                                       :code => allocine_id,
+                                       :profile => "large")
+      body = Allocine::Helper.get_body(url)
+      JSON.parse(body)["person"]
     end
       
   end

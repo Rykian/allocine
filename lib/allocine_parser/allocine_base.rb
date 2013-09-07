@@ -4,14 +4,13 @@ module Allocine
   require 'json'
   require 'net/http'
 
-#m= Allocine::Movie.new(20754)  
+  #m= Allocine::Movie.new(20754)  
   # Represents a AllocineBase
   class AllocineBase
-    attr_accessor :id, :url, :title
-    
+    attr_accessor :id, :title
+
     def initialize(allocine_id, title = nil)
       @id = allocine_id
-      @url = "http://api.allocine.fr/rest/v3/movie?code=#{allocine_id}&profile=large&format=json&partner=YW5kcm9pZC12M3M"
     end
     
     # Returns the name of the director
@@ -135,8 +134,11 @@ module Allocine
     end
     
     def self.find_by_id(allocine_id)
-      url = "http://api.allocine.fr/rest/v3/movie?code=#{allocine_id}&profile=large&format=json&partner=YW5kcm9pZC12M3M"
-      JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)["movie"] rescue nil
+      url = Allocine::Helper.build_url("movie",
+                                       :code => allocine_id,
+                                       :profile => "large")
+      body = Allocine::Helper.get_body(url)
+      JSON.parse(body)["movie"] rescue nil
     end
     
     # Convenience method for search

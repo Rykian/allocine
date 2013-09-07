@@ -1,14 +1,15 @@
 module Allocine
   
   class Search < MovieList
-    attr_reader :query
-
+    attr_reader :query, :options
+    
     # Initialize a new Allocine search with the specified query
     #
     #   search = Allocine::Search.new("Superman")
     #
-    def initialize(query)
+    def initialize(query, options = {})
       @query = query
+      @options = options
     end
     
     # Returns an array of Allocine::Movie objects for easy search result yielded.
@@ -18,12 +19,14 @@ module Allocine
 
     private
     def document
-      @document ||= Allocine::Search.query(@query)
+      @document ||= Allocine::Search.query(@query, @options)
     end
     
-    def self.query(query)
-      url = "http://api.allocine.fr/rest/v3/search?partner=YW5kcm9pZC12M3M&filter=movie,tvseries&q=#{query}&format=json"
-      JSON.parse(Net::HTTP.get_response(URI.parse(URI.encode(url))).body)["feed"] rescue nil
+    def self.query(query, options = {})
+      options[:q] = query
+      url = Allocine::Helper.build_url("search", options)
+      body = Allocine::Helper.get_body(url)
+      JSON.parse(body)["feed"] rescue nil
     end
         
     

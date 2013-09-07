@@ -7,12 +7,11 @@ module Allocine
     
     private
     def parse_movies
-      id, originalTitle = nil
       movies = []
       document["movie"].each do |element|
         id = element['code']
         title = element['originalTitle']
-        movies << Allocine::Movie.new(id, originalTitle)
+        movies << Allocine::Movie.new(id, title)
       end
       movies
     end
