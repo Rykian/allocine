@@ -32,7 +32,7 @@ describe "Allocine::Movie" do
       cast.should be_an(Array)
       cast.first.name.should =~ /George Lucas/
       cast.first.birth_date.should =~ /1944-05-14/
-      cast.first.gender.should =~ /1/ 
+      cast.first.gender.should == 1 
     end
     
     it "should find the genres" do
@@ -60,11 +60,11 @@ describe "Allocine::Movie" do
     end
   
     it "should find the poster" do
-      @movie.poster.should eql("http://images.allocine.fr/medias/nmedia/18/86/24/04/19835018.jpg")
+      @movie.poster.should eql("http://fr.web.img3.acsta.net/medias/nmedia/18/35/83/29/20017378.jpg")
     end
   
     it "should find the press rating" do
-      @movie.press_rating.should eql(3.125)
+      @movie.press_rating.should be_within(1).of(3.1)
     end
   
     it "should find the title" do
@@ -80,7 +80,7 @@ describe "Allocine::Movie" do
     end
     
     it "should find the trailer" do
-      @movie.trailer.should eql("http://www.allocine.fr/blogvision/19259278")
+      @movie.trailer.should eql("http://www.allocine.fr/blogvision/19473257")
     end
   end
     
