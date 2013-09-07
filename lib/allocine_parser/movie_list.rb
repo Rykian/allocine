@@ -4,7 +4,7 @@ module Allocine
     def movies
       @movies ||= parse_movies
     end
-    
+
     private
     def parse_movies
       movies = []

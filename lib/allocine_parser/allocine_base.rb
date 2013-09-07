@@ -1,10 +1,10 @@
 module Allocine
-  
+
   require 'rubygems'
   require 'json'
   require 'net/http'
 
-  #m= Allocine::Movie.new(20754)  
+  #m= Allocine::Movie.new(20754)
   # Represents a AllocineBase
   class AllocineBase
     attr_accessor :id, :title
@@ -12,12 +12,12 @@ module Allocine
     def initialize(allocine_id, title = nil)
       @id = allocine_id
     end
-    
+
     # Returns the name of the director
     def directors_name
       document["castingShort"]["directors"].split(", ") rescue nil
     end
-    
+
     # Returns directors
     def directors
       directors = []
@@ -26,7 +26,7 @@ module Allocine
       end
       directors
     end
-        
+
     # Returns ids of directors
     def directors_ids
       directors_ids = []
@@ -49,7 +49,7 @@ module Allocine
       end
       actors_ids
     end
-    
+
     # Returns actors
     def actors
       actors = []
@@ -58,7 +58,7 @@ module Allocine
       end
       actors
     end
-    
+
     # Returns an array of genres (as strings)
     def genres
       document["genre"].collect {|gender| gender["$"]} rescue nil
@@ -68,43 +68,43 @@ module Allocine
     def countries
       document["nationality"].collect {|nation| nation["$"]} rescue nil
     end
-    
+
     # Returns the duration of the movie in minutes as an integer.
     def length
-      document["runtime"].to_i/60 rescue nil 
+      document["runtime"].to_i/60 rescue nil
     end
-    
+
     # Returns a string containing the URL to the movie poster.
     def poster
-      document["poster"]["href"] rescue nil 
+      document["poster"]["href"] rescue nil
     end
-    
+
     # Returns a string containing trailer code.
     def trailer_id
-      document["trailer"]["code"] rescue nil 
+      document["trailer"]["code"] rescue nil
     end
 
     # Returns a string containing the URL to the movie trailer.
     def trailer
-      document["trailer"]["href"] rescue nil 
+      document["trailer"]["href"] rescue nil
     end
-    
+
     # Returns a float containing the average user rating
     def press_rating
-      document["statistics"]["pressRating"] rescue nil 
+      document["statistics"]["pressRating"] rescue nil
     end
 
     # Returns an int containing the number of user ratings
     def user_rating
-      document["statistics"]["userRating"] rescue nil 
+      document["statistics"]["userRating"] rescue nil
     end
-        
+
     # Returns a string containing the title
     def title(force_refresh = false)
       if @title && !force_refresh
         @title
       else
-        @title = document["title"] rescue nil 
+        @title = document["title"] rescue nil
       end
     end
 
@@ -112,27 +112,27 @@ module Allocine
     def original_title
       document["originalTitle"] rescue nil
     end
-    
+
     # Returns release date for the movie.
     def release_date
       document["release"]["releaseDate"] rescue nil
     end
-        
+
     # Return production Year for the movie
     def production_year
       document["productionYear"]
     end
-    
+
     def plot(short = true)
       short ? document["synopsisShort"] : document["synopsis"]
     end
 
     private
-    
+
     def document
       @document ||= Allocine::Movie.find_by_id(@id)
     end
-    
+
     def self.find_by_id(allocine_id)
       url = Allocine::Helper.build_url("movie",
                                        :code => allocine_id,
@@ -140,12 +140,12 @@ module Allocine
       body = Allocine::Helper.get_body(url)
       JSON.parse(body)["movie"] rescue nil
     end
-    
+
     # Convenience method for search
     def self.search(query)
       Allocine::Search.new(query).movies
     end
-        
+
   end
-  
+
 end

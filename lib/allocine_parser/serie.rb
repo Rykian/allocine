@@ -1,10 +1,10 @@
 module Allocine
-  
+
   class Serie < AllocineBase
-    
+
     # s = Allocine::Serie.new(223)
     # e = s.seasons.first.episodes.first
-    
+
 
     def initialize(allocine_id, title = nil)
       @id = allocine_id
@@ -14,15 +14,15 @@ module Allocine
     def number_of_seasons
       document["seasonCount"] rescue nil
     end
-    
+
     def number_of_episodes
       document["episodeCount"] rescue nil
     end
-    
+
     def year_start
       document["yearStart"] rescue nil
     end
-    
+
     def year_end
       document["yearEnd"] rescue nil
     end
@@ -30,7 +30,7 @@ module Allocine
     def season_ids
       document["season"].map { |season| season["code"]} rescue []
     end
-    
+
     def seasons
       s = []
       season_ids.each do |allocine_id|
@@ -52,6 +52,6 @@ module Allocine
       body = Allocine::Helper.get_body(url)
       JSON.parse(body)["tvseries"]
     end
-      
+
   end
 end
