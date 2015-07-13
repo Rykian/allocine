@@ -3,7 +3,6 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'open-uri'
 require 'rubygems'
-require 'awesome_print'
 
 require 'allocine_parser/allocine_base'
 require 'allocine_parser/movie'
