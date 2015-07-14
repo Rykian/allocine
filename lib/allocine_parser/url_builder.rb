@@ -15,7 +15,7 @@ module Allocine
       params[:partner] = ALLOCINE_PARTNER_KEY
       params[:sed] ||= DateTime.now.strftime('%Y%m%d')
 
-      line = [:q, :code, :count, :page, :format, :partner, :sed, :zip].map do |sym|
+      line = [:q, :code, :count, :page, :format, :partner, :sed, :zip, :theaters].map do |sym|
         "#{sym}=#{params[sym]}" if params[sym]
       end.compact.join('&')
 
